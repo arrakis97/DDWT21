@@ -137,9 +137,9 @@ function get_error($feedback){
         </div>';
 }
 
-function get_series($pdo) {
+function count_series($pdo) {
     $stmt = $pdo->prepare('SELECT count(id) FROM series');
     $stmt->execute();
-    $series = $stmt->fetch();
+    $series = $stmt->fetchAll();
     return $series;
 }

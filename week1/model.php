@@ -136,3 +136,10 @@ function get_error($feedback){
             '.$feedback['message'].'
         </div>';
 }
+
+function get_series($pdo) {
+    $stmt = $pdo->prepare('SELECT count(id) FROM series');
+    $stmt->execute();
+    $series = $stmt->fetch();
+    return $series;
+}

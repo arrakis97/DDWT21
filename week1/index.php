@@ -10,10 +10,11 @@
 include 'model.php';
 
 /* Connect to DB */
-$db = connect_db('localhost', ‘ddwt21_week1', ‘ddwt21','ddwt21');
+$db = connect_db('localhost', 'ddwt21_week1', 'ddwt21','ddwt21');
 
 /* Landing page */
 if (new_route('/DDWT21/week1/', 'get')) {
+    $series_amount = get_series($db);
     /* Page info */
     $page_title = 'Home';
     $breadcrumbs = get_breadcrumbs([
@@ -38,6 +39,7 @@ if (new_route('/DDWT21/week1/', 'get')) {
 
 /* Overview page */
 elseif (new_route('/DDWT21/week1/overview/', 'get')) {
+    $series_amount = get_series($db);
     /* Page info */
     $page_title = 'Overview';
     $breadcrumbs = get_breadcrumbs([
@@ -83,6 +85,7 @@ elseif (new_route('/DDWT21/week1/overview/', 'get')) {
 
 /* Single series */
 elseif (new_route('/DDWT21/week1/series/', 'get')) {
+    $series_amount = get_series($db);
     /* Get series from db */
     $series_name = 'House of Cards';
     $series_abstract = 'A Congressman works with his equally conniving wife to exact revenge on the people who betrayed him.';
@@ -114,6 +117,7 @@ elseif (new_route('/DDWT21/week1/series/', 'get')) {
 
 /* Add series GET */
 elseif (new_route('/DDWT21/week1/add/', 'get')) {
+    $series_amount = get_series($db);
     /* Page info */
     $page_title = 'Add Series';
     $breadcrumbs = get_breadcrumbs([
@@ -140,6 +144,7 @@ elseif (new_route('/DDWT21/week1/add/', 'get')) {
 
 /* Add series POST */
 elseif (new_route('/DDWT21/week1/add/', 'post')) {
+    $series_amount = get_series($db);
     /* Page info */
     $page_title = 'Add Series';
     $breadcrumbs = get_breadcrumbs([
@@ -165,6 +170,7 @@ elseif (new_route('/DDWT21/week1/add/', 'post')) {
 
 /* Edit series GET */
 elseif (new_route('/DDWT21/week1/edit/', 'get')) {
+    $series_amount = get_series($db);
     /* Get series info from db */
     $series_name = 'House of Cards';
     $series_abstract = 'A Congressman works with his equally conniving wife to exact revenge on the people who betrayed him.';
@@ -195,6 +201,7 @@ elseif (new_route('/DDWT21/week1/edit/', 'get')) {
 
 /* Edit series POST */
 elseif (new_route('/DDWT21/week1/edit/', 'post')) {
+    $series_amount = get_series($db);
     /* Get series info from db */
     $series_name = 'House of Cards';
     $series_abstract = 'A Congressman works with his equally conniving wife to exact revenge on the people who betrayed him.';
@@ -226,6 +233,7 @@ elseif (new_route('/DDWT21/week1/edit/', 'post')) {
 
 /* Remove series */
 elseif (new_route('/DDWT21/week1/remove/', 'post')) {
+    $series_amount = get_series($db);
     /* Remove series in database */
     $series_id = $_POST['series_id'];
     $feedback = remove_series($db, $series_id);

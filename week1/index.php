@@ -9,6 +9,9 @@
 
 include 'model.php';
 
+/* Connect to DB */
+$db = connect_db('localhost', ‘ddwt21_week1', ‘ddwt21','ddwt21');
+
 /* Landing page */
 if (new_route('/DDWT21/week1/', 'get')) {
     /* Page info */

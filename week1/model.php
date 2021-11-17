@@ -19,6 +19,24 @@ error_reporting(E_ALL);
  * @return bool
  *
  */
+
+function connect_db($host, $db, $user, $pass) {
+    $charset = 'utf8mb4';
+
+    $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ];
+    try {
+        $pdo = new PDO($dsn, $user, $pass, $options);
+    } catch (PDOException $e) {
+        echo sprintf("Failed to connect. %s", $e->getMessage());
+    }
+    return $pdo;
+}
+
+
 function new_route($route_uri, $request_type){
     $route_uri_expl = array_filter(explode('/', $route_uri));
     $current_path_expl = array_filter(explode('/',parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)));

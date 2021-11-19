@@ -207,3 +207,26 @@ function get_series_info($pdo, $series_id) {
     }
     return $series_info_exp;
 }
+
+function add_series($pdo) {
+    $stmt = $pdo->prepare('INSERT INTO series (name, creator, seasons, abstract) VALUES (?, ?, ?, ?)');
+    $stmt->execute([
+        $series_info['Name'],
+        $series_info['Creator'],
+        $series_info['Seasons'],
+        $series_info['Abstract']
+    ]);
+    $inserted = $stmt->rowCount();
+    if ($inserted == 1) {
+        return [
+            'type' => 'succes',
+            'message' => sprintf("Series '%s' added to the Series Overview.", $series_info['Name'])
+        ];
+    }
+    else {
+        return [
+            'type' => 'danger',
+            'message' => 'There was an error. The series was not added. Try it again.'
+        ];
+    }
+}

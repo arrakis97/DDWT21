@@ -6,7 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <!-- Bootstrap CSS -->
+        <!--
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.1/css/bootstrap.min.css" integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
         <!-- Own CSS -->
         <link rel="stylesheet" href="/DDWT21/week1/css/main.css">
@@ -34,6 +37,37 @@
                     <h5><?= $page_subtitle ?></h5>
                     <p><?= $page_content ?></p>
                     <!-- Put your form here -->
+                    <form action="/DDWT21/week1/add/" method="POST">
+                        <div class="form-group row">
+                            <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputName" name="Name" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputCreator" class="col-sm-2 col-form-label">Creator</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputCreator" name="Creator" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputSeasons" class="col-sm-2 col-form-label">Seasons</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" id="inputSeasons" name="Seasons" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inputAbstract" class="col-sm-2 col-form-label">Abstract</label>
+                            <div class="col-sm-10">
+                                <input type="field" class="form-control" id="inputAbstract" name="Abstract" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary"><?= $submit_btn ?></button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
                 <!-- Right column -->

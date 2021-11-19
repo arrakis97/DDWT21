@@ -40,6 +40,8 @@ if (new_route('/DDWT21/week1/', 'get')) {
 /* Overview page */
 elseif (new_route('/DDWT21/week1/overview/', 'get')) {
     $series_amount = count_series($db);
+    $series = get_series($db);
+    $series = get_series_table($series);
     /* Page info */
     $page_title = 'Overview';
     $breadcrumbs = get_breadcrumbs([
@@ -57,6 +59,8 @@ elseif (new_route('/DDWT21/week1/overview/', 'get')) {
     $right_column = use_template('cards');
     $page_subtitle = 'The overview of all series';
     $page_content = 'Here you find all series listed on Series Overview.';
+    $left_content = $series;
+    /*
     $left_content = '
     <table class="table table-hover">
         <thead>
@@ -78,6 +82,7 @@ elseif (new_route('/DDWT21/week1/overview/', 'get')) {
 
         </tbody>
     </table>';
+    */
 
     /* Choose Template */
     include use_template('main');

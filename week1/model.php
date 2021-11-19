@@ -137,9 +137,61 @@ function get_error($feedback){
         </div>';
 }
 
+/**
+ * @param $pdo
+ * @return mixed
+ */
 function count_series($pdo) {
     $stmt = $pdo->prepare('SELECT id FROM series');
     $stmt->execute();
     $series = $stmt->fetchAll();
     return $series;
+}
+
+/**
+ * @param $pdo
+ * @return array
+ */
+function get_series($pdo) {
+    $stmt = $pdo->prepare('SELECT * FROM series');
+    $stmt->execute();
+    $series = $stmt->fetchAll();
+    $series_exp = Array();
+
+    foreach ($series as $key => $value) {
+        foreach ($value as $user_key => $user_input) {
+            $series_exp[$key][$user_key] = htmlspecialchars($user_input);
+        }
+    }
+    return $series_exp;
+}
+
+/**
+ * @param $series
+ * @return string
+ */
+function get_series_table($series) {
+    $table_exp = '
+    <table class="table table-hover">
+    <thead>
+    <tr>
+    <th scope="col">Series</th>
+    <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    ';
+    foreach ($series as $key => $value) {
+        $table_exp .= '
+        <tr>
+        <th scope="row">'.$value['name'].'</th>
+        <td><a href="/DDWT21/week1/series/?series_id='.$value['id'].'" role="button" class="btn btn-primary">More info</a></td>
+        </tr>
+        ';
+    }
+    $table_exp .= '
+    </tbody>
+    </table>
+    ';
+    return $table_exp;
 }

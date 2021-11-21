@@ -41,25 +41,25 @@
                         <div class="form-group row">
                             <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputName" name="Name" required>
+                                <input type="text" class="form-control" id="inputName" name="Name" placeholder="Enter series name" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="inputCreator" class="col-sm-2 col-form-label">Creator</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputCreator" name="Creator" required>
+                                <input type="text" class="form-control" id="inputCreator" name="Creator" placeholder="Enter series creator" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="inputSeasons" class="col-sm-2 col-form-label">Seasons</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="inputSeasons" name="Seasons" required>
+                                <input type="number" class="form-control" id="inputSeasons" name="Seasons" placeholder="Enter number of seasons" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="inputAbstract" class="col-sm-2 col-form-label">Abstract</label>
                             <div class="col-sm-10">
-                                <input type="field" class="form-control" id="inputAbstract" name="Abstract" required>
+                                <textarea class="form-control" id="inputAbstract" name="Abstract" placeholder="Enter series abstract" required></textarea>
                             </div>
                         </div>
                         <div class="form-group row">

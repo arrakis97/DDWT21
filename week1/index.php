@@ -151,6 +151,7 @@ elseif (new_route('/DDWT21/week1/add/', 'get')) {
 /* Add series POST */
 elseif (new_route('/DDWT21/week1/add/', 'post')) {
     $series_amount = count_series($db);
+    $add_show = add_series($db, $_POST);
     /* Page info */
     $page_title = 'Add Series';
     $breadcrumbs = get_breadcrumbs([

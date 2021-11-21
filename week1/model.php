@@ -208,25 +208,75 @@ function get_series_info($pdo, $series_id) {
     return $series_info_exp;
 }
 
-function add_series($pdo) {
-    $stmt = $pdo->prepare('INSERT INTO series (name, creator, seasons, abstract) VALUES (?, ?, ?, ?)');
-    $stmt->execute([
-        $series_info['Name'],
-        $series_info['Creator'],
-        $series_info['Seasons'],
-        $series_info['Abstract']
-    ]);
-    $inserted = $stmt->rowCount();
-    if ($inserted == 1) {
+function check_empty ($series_info) {
+    if (
+        empty($series_info['Name']) or
+        empty($series_info['Creator']) or
+        empty($series_info['Seasons']) or
+        empty($series_info['Abstract'])
+    ) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+function check_numeric ($series_info) {
+    if (!is_numeric($series_info['Seasons'])) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+function check_exists ($pdo, $series_info) {
+    $stmt = $pdo->prepare('SELECT * FROM series WHERE name = ?');
+    $stmt->execute([$series_info['Name']]);
+    $series = $stmt->rowCount();
+    if ($series) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function add_series ($pdo, $series_info) {
+    if (!check_empty($series_info)) {
         return [
-            'type' => 'succes',
-            'message' => sprintf("Series '%s' added to the Series Overview.", $series_info['Name'])
+            get_error(['type' => 'danger', 'message' => 'There was an error. Not all fields were filled in.'])
+        ];
+    }
+    if (!check_numeric($series_info)) {
+        return [
+            get_error(['type' => 'danger', 'message' => 'There was an error. You should enter a number in the field Seasons.'])
+        ];
+    }
+    if (!check_exists($pdo, $series_info)) {
+        return [
+            get_error(['type' => 'danger', 'message' => 'This series was already added.'])
         ];
     }
     else {
-        return [
-            'type' => 'danger',
-            'message' => 'There was an error. The series was not added. Try it again.'
-        ];
+        $stmt = $pdo->prepare('INSERT INTO series (name, creator, seasons, abstract) VALUES (?, ?, ?, ?)');
+        $stmt->execute([
+            $series_info['Name'],
+            $series_info['Creator'],
+            $series_info['Seasons'],
+            $series_info['Abstract']
+        ]);
+        $inserted = $stmt->rowCount();
+        if ($inserted == 1) {
+            return [
+                'type' => 'success',
+                'message' => sprintf("Series '%s' added to Series Overview.", $series_info['Name'])
+            ];
+        }
+        else {
+            return [
+                'type' => 'danger',
+                'message' => 'There was an error. The series was not added. Try again.'
+            ];
+        }
     }
 }

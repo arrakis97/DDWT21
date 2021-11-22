@@ -64,6 +64,7 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-10">
+                                <input type="hidden" id="series_id" name="series_id" value="<?= $series_id?>">
                                 <button type="submit" class="btn btn-primary"><?= $submit_btn ?></button>
                             </div>
                         </div>

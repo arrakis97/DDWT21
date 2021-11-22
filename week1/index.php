@@ -181,6 +181,7 @@ elseif (new_route('/DDWT21/week1/edit/', 'get')) {
     $series_amount = count_series($db);
     $series_info_exp = get_series_info($db, htmlspecialchars($_GET['series_id']));
     /* Get series info from db */
+    $series_id = $_GET['series_id'];
     $series_name = $series_info_exp['name'];
     $series_abstract = $series_info_exp['abstract'];
     $nbr_seasons = $series_info_exp['seasons'];
@@ -213,11 +214,14 @@ elseif (new_route('/DDWT21/week1/edit/', 'get')) {
 /* Edit series POST */
 elseif (new_route('/DDWT21/week1/edit/', 'post')) {
     $series_amount = count_series($db);
+    $edit_series = update_series($db, $_POST);
+    $series_info_exp = get_series_info($db, htmlspecialchars($_GET['series_id']));
     /* Get series info from db */
-    $series_name = 'House of Cards';
-    $series_abstract = 'A Congressman works with his equally conniving wife to exact revenge on the people who betrayed him.';
-    $nbr_seasons = '6';
-    $creators = 'Beau Willimon';
+    $series_id = $_GET['series_id'];
+    $series_name = $series_info_exp['name'];
+    $series_abstract = $series_info_exp['abstract'];
+    $nbr_seasons = $series_info_exp['seasons'];
+    $creators = $series_info_exp['creator'];
 
     /* Page info */
     $page_title = $series_info['name'];

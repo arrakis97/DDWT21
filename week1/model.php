@@ -208,51 +208,26 @@ function get_series_info($pdo, $series_id) {
     return $series_info_exp;
 }
 
-function check_empty ($series_info) {
+function add_series ($pdo, $series_info) {
     if (
         empty($series_info['Name']) or
         empty($series_info['Creator']) or
         empty($series_info['Seasons']) or
         empty($series_info['Abstract'])
     ) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-function check_numeric ($series_info) {
-    if (!is_numeric($series_info['Seasons'])) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-function check_exists ($pdo, $series_info) {
-    $stmt = $pdo->prepare('SELECT * FROM series WHERE name = ?');
-    $stmt->execute([$series_info['Name']]);
-    $series = $stmt->rowCount();
-    if ($series) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-
-function add_series ($pdo, $series_info) {
-    if (!check_empty($series_info)) {
         return [
             get_error(['type' => 'danger', 'message' => 'There was an error. Not all fields were filled in.'])
         ];
     }
-    if (!check_numeric($series_info)) {
+    if (!is_numeric($series_info['Seasons'])) {
         return [
             get_error(['type' => 'danger', 'message' => 'There was an error. You should enter a number in the field Seasons.'])
         ];
     }
-    if (!check_exists($pdo, $series_info)) {
+    $stmt = $pdo->prepare('SELECT * FROM series WHERE name = ?');
+    $stmt->execute([$series_info['Name']]);
+    $series = $stmt->rowCount();
+    if ($series) {
         return [
             get_error(['type' => 'danger', 'message' => 'This series was already added.'])
         ];
@@ -276,6 +251,62 @@ function add_series ($pdo, $series_info) {
             return [
                 'type' => 'danger',
                 'message' => 'There was an error. The series was not added. Try again.'
+            ];
+        }
+    }
+}
+
+function update_series($pdo, $series_info) {
+    if (
+        empty($series_info['Name']) or
+        empty($series_info['Creator']) or
+        empty($series_info['Seasons']) or
+        empty($series_info['Abstract']) or
+        empty($series_info['series_id'])
+    ) {
+        return [
+            get_error(['type' => 'danger', 'message' => 'There was an error. Not all fields were filled in.'])
+        ];
+    }
+    if (!is_numeric($series_info['Seasons'])) {
+        return [
+            get_error(['type' => 'danger', 'message' => 'There was an error. You should enter a number in the field Seasons.'])
+        ];
+    }
+    $stmt = $pdo->prepare('SELECT * FROM series WHERE id = ?');
+    $stmt->execute([$series_info['series_id']]);
+    $series = $stmt->fetch();
+    $current_name = $series['name'];
+
+    $stmt = $pdo->prepare('SELECT * FROM series WHERE name = ?');
+    $stmt->execute([$series_info['Name']]);
+    $series = $stmt->fetch();
+    if ($series_info['Name'] == $series['name'] and $series['name'] != $current_name) {
+        return [
+            'type' => 'danger',
+            'message' => sprintf("The name of the series cannot be changed. '%s' already exists.", $series_info['Name'])
+        ];
+    }
+    else {
+        $stmt = $pdo->prepare('UPDATE series SET name = ?, creator = ?, seasons = ?, abstract = ? WHERE id = ?');
+        $stmt->execute([
+            $series_info['Name'],
+            $series_info['Creator'],
+            $series_info['Seasons'],
+            $series_info['Abstract'],
+            $series_info['series_id']
+        ]);
+        $updated = $stmt->rowCount();
+        if ($inserted == 1) {
+            return [
+                'type' => 'success',
+                'message' => sprintf("Series '%s' added to Series Overview.", $series_info['Name'])
+            ];
+        }
+        else {
+            return [
+                'type' => 'warning',
+                'message' => 'The series was not edited. No changes were detected.'
             ];
         }
     }

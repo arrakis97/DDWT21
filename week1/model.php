@@ -224,12 +224,14 @@ function add_series ($pdo, $series_info) {
         empty($series_info['Abstract'])
     ) {
         return [
-            get_error(['type' => 'danger', 'message' => 'There was an error. Not all fields were filled in.'])
+            'type' => 'danger',
+            'message' => 'There was an error. Not all fields were filled in.'
         ];
     }
     if (!is_numeric($series_info['Seasons'])) {
         return [
-            get_error(['type' => 'danger', 'message' => 'There was an error. You should enter a number in the field Seasons.'])
+            'type' => 'danger',
+            'message' => 'There was an error. You should enter a number in the field Seasons.'
         ];
     }
     else {
@@ -265,12 +267,14 @@ function update_series($pdo, $series_info) {
         empty($series_info['series_id'])
     ) {
         return [
-            get_error(['type' => 'danger', 'message' => 'There was an error. Not all fields were filled in.'])
+            'type' => 'danger',
+            'message' => 'There was an error. Not all fields were filled in.'
         ];
     }
     if (!is_numeric($series_info['Seasons'])) {
         return [
-            get_error(['type' => 'danger', 'message' => 'There was an error. You should enter a number in the field Seasons.'])
+            'type' => 'danger',
+            'message' => 'There was an error. You should enter a number in the field Seasons.'
         ];
     }
     $stmt = $pdo->prepare('SELECT * FROM series WHERE id = ?');
@@ -297,7 +301,7 @@ function update_series($pdo, $series_info) {
             $series_info['series_id']
         ]);
         $updated = $stmt->rowCount();
-        if ($inserted == 1) {
+        if ($updated == 1) {
             return [
                 'type' => 'success',
                 'message' => sprintf("Series '%s' was edited!", $series_info['Name'])

@@ -215,19 +215,18 @@ elseif (new_route('/DDWT21/week1/edit/', 'get')) {
 /* Edit series POST */
 elseif (new_route('/DDWT21/week1/edit/', 'post')) {
     $series_amount = count_series($db);
-    //$edit_series = update_series($db, $_POST);
-    $feedback = update_series($db, $_POST);
-    $error_msg = get_error($feedback);
-    $series_info_exp = get_series_info($db, htmlspecialchars($_GET['series_id']));
+    $series_info_exp = get_series_info($db, htmlspecialchars($_POST['series_id']));
     /* Get series info from db */
     $series_id = $series_info_exp['id'];
     $series_name = $series_info_exp['name'];
     $series_abstract = $series_info_exp['abstract'];
     $nbr_seasons = $series_info_exp['seasons'];
     $creators = $series_info_exp['creator'];
+    $feedback = update_series($db, $_POST);
+    $error_msg = get_error($feedback);
 
     /* Page info */
-    $page_title = $series_info['name'];
+    $page_title = $series_info_exp['name'];
     $breadcrumbs = get_breadcrumbs([
         'DDWT21' => na('/DDWT21/', False),
         'Week 1' => na('/DDWT21/week1/', False),
@@ -252,13 +251,13 @@ elseif (new_route('/DDWT21/week1/edit/', 'post')) {
 
 /* Remove series */
 elseif (new_route('/DDWT21/week1/remove/', 'post')) {
-    $series_amount = count_series($db);
-    $series = get_series($db);
-    $series = get_series_table($series);
     /* Remove series in database */
     $series_id = $_POST['series_id'];
     $feedback = remove_series($db, $series_id);
     $error_msg = get_error($feedback);
+    $series_amount = count_series($db);
+    $series = get_series($db);
+    $series = get_series_table($series);
 
     /* Page info */
     $page_title = 'Overview';

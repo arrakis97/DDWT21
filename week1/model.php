@@ -209,6 +209,14 @@ function get_series_info($pdo, $series_id) {
 }
 
 function add_series ($pdo, $series_info) {
+    $stmt = $pdo->prepare('SELECT * FROM series WHERE name = ?');
+    $stmt->execute([$series_info['Name']]);
+    $series = $stmt->rowCount();
+    if ($series == 1) {
+        return [
+            get_error(['type' => 'danger', 'message' => 'This series was already added.'])
+        ];
+    }
     if (
         empty($series_info['Name']) or
         empty($series_info['Creator']) or
@@ -222,14 +230,6 @@ function add_series ($pdo, $series_info) {
     if (!is_numeric($series_info['Seasons'])) {
         return [
             get_error(['type' => 'danger', 'message' => 'There was an error. You should enter a number in the field Seasons.'])
-        ];
-    }
-    $stmt = $pdo->prepare('SELECT * FROM series WHERE name = ?');
-    $stmt->execute([$series_info['Name']]);
-    $series = $stmt->rowCount();
-    if ($series) {
-        return [
-            get_error(['type' => 'danger', 'message' => 'This series was already added.'])
         ];
     }
     else {
@@ -300,7 +300,7 @@ function update_series($pdo, $series_info) {
         if ($inserted == 1) {
             return [
                 'type' => 'success',
-                'message' => sprintf("Series '%s' added to Series Overview.", $series_info['Name'])
+                'message' => sprintf("Series '%s' was edited!", $series_info['Name'])
             ];
         }
         else {
@@ -309,5 +309,25 @@ function update_series($pdo, $series_info) {
                 'message' => 'The series was not edited. No changes were detected.'
             ];
         }
+    }
+}
+
+function remove_series($pdo, $series_id) {
+    $series_info = get_series_info($pdo, $series_id);
+
+    $stmt = $pdo->prepare('DELETE FROM series WHERE id = ?');
+    $stmt->execute([$series_id]);
+    $deleted = $stmt->rowCount();
+    if ($deleted == 1) {
+        return [
+            'type' => 'success',
+            'message' => sprintf("Series '%s' was removed!", $series_info['name'])
+        ];
+    }
+    else {
+        return [
+            'type' => 'warning',
+            'message' => 'An error occurred. The series was not removed.'
+        ];
     }
 }

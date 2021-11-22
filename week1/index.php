@@ -152,7 +152,8 @@ elseif (new_route('/DDWT21/week1/add/', 'get')) {
 /* Add series POST */
 elseif (new_route('/DDWT21/week1/add/', 'post')) {
     $series_amount = count_series($db);
-    $add_show = add_series($db, $_POST);
+    $feedback = add_series($db, $_POST);
+    $error_msg = get_error($feedback);
     /* Page info */
     $page_title = 'Add Series';
     $breadcrumbs = get_breadcrumbs([
@@ -214,10 +215,12 @@ elseif (new_route('/DDWT21/week1/edit/', 'get')) {
 /* Edit series POST */
 elseif (new_route('/DDWT21/week1/edit/', 'post')) {
     $series_amount = count_series($db);
-    $edit_series = update_series($db, $_POST);
+    //$edit_series = update_series($db, $_POST);
+    $feedback = update_series($db, $_POST);
+    $error_msg = get_error($feedback);
     $series_info_exp = get_series_info($db, htmlspecialchars($_GET['series_id']));
     /* Get series info from db */
-    $series_id = $_GET['series_id'];
+    $series_id = $series_info_exp['id'];
     $series_name = $series_info_exp['name'];
     $series_abstract = $series_info_exp['abstract'];
     $nbr_seasons = $series_info_exp['seasons'];
@@ -250,6 +253,8 @@ elseif (new_route('/DDWT21/week1/edit/', 'post')) {
 /* Remove series */
 elseif (new_route('/DDWT21/week1/remove/', 'post')) {
     $series_amount = count_series($db);
+    $series = get_series($db);
+    $series = get_series_table($series);
     /* Remove series in database */
     $series_id = $_POST['series_id'];
     $feedback = remove_series($db, $series_id);
@@ -272,7 +277,8 @@ elseif (new_route('/DDWT21/week1/remove/', 'post')) {
     $right_column = use_template('cards');
     $page_subtitle = 'The overview of all series';
     $page_content = 'Here you find all series listed on Series Overview.';
-    $left_content = '
+    $left_content = $series;
+        /*'
     <table class="table table-hover">
         <thead>
         <tr>
@@ -293,6 +299,7 @@ elseif (new_route('/DDWT21/week1/remove/', 'post')) {
 
         </tbody>
     </table>';
+        */
 
     /* Choose Template */
     include use_template('main');

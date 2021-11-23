@@ -131,6 +131,9 @@ function p_print($input){
  * @return string
  */
 function get_error($feedback){
+    /*foreach ($feedback as $item) {
+        echo $item . "\n";
+    } */
     return '
         <div class="alert alert-'.$feedback['type'].'" role="alert">
             '.$feedback['message'].'
@@ -196,6 +199,11 @@ function get_series_table($series) {
     return $table_exp;
 }
 
+/**
+ * @param $pdo
+ * @param $series_id
+ * @return array
+ */
 function get_series_info($pdo, $series_id) {
     $stmt = $pdo->prepare('SELECT * FROM series WHERE id = ?');
     $stmt->execute([$series_id]);
@@ -208,13 +216,19 @@ function get_series_info($pdo, $series_id) {
     return $series_info_exp;
 }
 
+/**
+ * @param $pdo
+ * @param $series_info
+ * @return array|string[]
+ */
 function add_series ($pdo, $series_info) {
     $stmt = $pdo->prepare('SELECT * FROM series WHERE name = ?');
     $stmt->execute([$series_info['Name']]);
     $series = $stmt->rowCount();
     if ($series == 1) {
         return [
-            get_error(['type' => 'danger', 'message' => 'This series was already added.'])
+            'type' => 'danger',
+            'message' => 'This series was already added.'
         ];
     }
     if (
@@ -258,6 +272,11 @@ function add_series ($pdo, $series_info) {
     }
 }
 
+/**
+ * @param $pdo
+ * @param $series_info
+ * @return array|string[]
+ */
 function update_series($pdo, $series_info) {
     if (
         empty($series_info['Name']) or
@@ -316,6 +335,11 @@ function update_series($pdo, $series_info) {
     }
 }
 
+/**
+ * @param $pdo
+ * @param $series_id
+ * @return array|string[]
+ */
 function remove_series($pdo, $series_id) {
     $series_info = get_series_info($pdo, $series_id);
 

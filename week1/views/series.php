@@ -48,6 +48,7 @@
                     <div class="row">
                         <div class="col-sm-2">
                             <a href="/DDWT21/week1/edit/?series_id=<?= $series_id ?>" role="button" class="btn btn-warning">Edit</a>
+                            <input type="hidden" value="<?= $series_id ?>" name="series_id">
                         </div>
                         <div class="col-sm-2">
                             <form action="/DDWT21/week1/remove/" method="POST">

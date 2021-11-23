@@ -180,9 +180,9 @@ elseif (new_route('/DDWT21/week1/add/', 'post')) {
 /* Edit series GET */
 elseif (new_route('/DDWT21/week1/edit/', 'get')) {
     $series_amount = count_series($db);
-    $series_info_exp = get_series_info($db, htmlspecialchars($_GET['series_id']));
-    /* Get series info from db */
     $series_id = $_GET['series_id'];
+    $series_info_exp = get_series_info($db, $series_id);
+    /* Get series info from db */
     $series_name = $series_info_exp['name'];
     $series_abstract = $series_info_exp['abstract'];
     $nbr_seasons = $series_info_exp['seasons'];
@@ -217,7 +217,7 @@ elseif (new_route('/DDWT21/week1/edit/', 'post')) {
     $series_amount = count_series($db);
     $series_info_exp = get_series_info($db, htmlspecialchars($_POST['series_id']));
     /* Get series info from db */
-    $series_id = $series_info_exp['id'];
+    $series_id = $_POST['series_id'];
     $series_name = $series_info_exp['name'];
     $series_abstract = $series_info_exp['abstract'];
     $nbr_seasons = $series_info_exp['seasons'];
@@ -244,6 +244,7 @@ elseif (new_route('/DDWT21/week1/edit/', 'post')) {
     $page_subtitle = sprintf('Information about %s', $series_name);
     $page_content = $series_info['abstract'];
     $submit_btn = 'Submit edit';
+    $form_action = 'DDWT21/week1/edit/';
 
     /* Choose Template */
     include use_template('series');

@@ -40,8 +40,11 @@ if (new_route('/DDWT21/week1/', 'get')) {
 /* Overview page */
 elseif (new_route('/DDWT21/week1/overview/', 'get')) {
     $series_amount = count_series($db);
+
+    /* Create a table containing all series in the database */
     $series = get_series($db);
     $series = get_series_table($series);
+
     /* Page info */
     $page_title = 'Overview';
     $breadcrumbs = get_breadcrumbs([
@@ -60,29 +63,6 @@ elseif (new_route('/DDWT21/week1/overview/', 'get')) {
     $page_subtitle = 'The overview of all series';
     $page_content = 'Here you find all series listed on Series Overview.';
     $left_content = $series;
-    /*
-    $left_content = '
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">Series</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th scope="row">House of Cards</th>
-            <td><a href="/DDWT21/week1/series/" role="button" class="btn btn-primary">More info</a></td>
-        </tr>
-
-        <tr>
-            <th scope="row">Game of Thrones</th>
-            <td><a href="/DDWT21/week1/series/" role="button" class="btn btn-primary">More info</a></td>
-        </tr>
-
-        </tbody>
-    </table>';
-    */
 
     /* Choose Template */
     include use_template('main');
@@ -91,8 +71,9 @@ elseif (new_route('/DDWT21/week1/overview/', 'get')) {
 /* Single series */
 elseif (new_route('/DDWT21/week1/series/', 'get')) {
     $series_amount = count_series($db);
-    $series_info_exp = get_series_info($db, htmlspecialchars($_GET['series_id']));
+
     /* Get series from db */
+    $series_info_exp = get_series_info($db, $_GET['series_id']);
     $series_name = $series_info_exp['name'];
     $series_abstract = $series_info_exp['abstract'];
     $nbr_seasons = $series_info_exp['seasons'];
@@ -125,6 +106,7 @@ elseif (new_route('/DDWT21/week1/series/', 'get')) {
 /* Add series GET */
 elseif (new_route('/DDWT21/week1/add/', 'get')) {
     $series_amount = count_series($db);
+
     /* Page info */
     $page_title = 'Add Series';
     $breadcrumbs = get_breadcrumbs([
@@ -151,9 +133,12 @@ elseif (new_route('/DDWT21/week1/add/', 'get')) {
 
 /* Add series POST */
 elseif (new_route('/DDWT21/week1/add/', 'post')) {
+    /* Call the add_series function and call the function to display error/success messages */
     $feedback = add_series($db, $_POST);
     $error_msg = get_error($feedback);
+
     $series_amount = count_series($db);
+
     /* Page info */
     $page_title = 'Add Series';
     $breadcrumbs = get_breadcrumbs([
@@ -181,8 +166,9 @@ elseif (new_route('/DDWT21/week1/add/', 'post')) {
 elseif (new_route('/DDWT21/week1/edit/', 'get')) {
     $series_amount = count_series($db);
     $series_id = $_GET['series_id'];
-    $series_info_exp = get_series_info($db, $series_id);
+
     /* Get series info from db */
+    $series_info_exp = get_series_info($db, $series_id);
     $series_name = $series_info_exp['name'];
     $series_abstract = $series_info_exp['abstract'];
     $nbr_seasons = $series_info_exp['seasons'];
@@ -215,12 +201,15 @@ elseif (new_route('/DDWT21/week1/edit/', 'get')) {
 /* Edit series POST */
 elseif (new_route('/DDWT21/week1/edit/', 'post')) {
     $series_id = $_POST['series_id'];
+
+    /* Call the update_series and call the function to display error/success messages */
     $feedback = update_series($db, $_POST);
     $error_msg = get_error($feedback);
 
     $series_amount = count_series($db);
-    $series_info_exp = get_series_info($db, htmlspecialchars($_POST['series_id']));
+
     /* Get series info from db */
+    $series_info_exp = get_series_info($db, $series_id);
     $series_name = $series_info_exp['name'];
     $series_abstract = $series_info_exp['abstract'];
     $nbr_seasons = $series_info_exp['seasons'];
@@ -257,6 +246,8 @@ elseif (new_route('/DDWT21/week1/remove/', 'post')) {
     $series_id = $_POST['series_id'];
     $feedback = remove_series($db, $series_id);
     $error_msg = get_error($feedback);
+
+    /* Display the series info */
     $series_amount = count_series($db);
     $series = get_series($db);
     $series = get_series_table($series);

@@ -151,9 +151,9 @@ elseif (new_route('/DDWT21/week1/add/', 'get')) {
 
 /* Add series POST */
 elseif (new_route('/DDWT21/week1/add/', 'post')) {
-    $series_amount = count_series($db);
     $feedback = add_series($db, $_POST);
     $error_msg = get_error($feedback);
+    $series_amount = count_series($db);
     /* Page info */
     $page_title = 'Add Series';
     $breadcrumbs = get_breadcrumbs([
@@ -214,16 +214,17 @@ elseif (new_route('/DDWT21/week1/edit/', 'get')) {
 
 /* Edit series POST */
 elseif (new_route('/DDWT21/week1/edit/', 'post')) {
+    $series_id = $_POST['series_id'];
+    $feedback = update_series($db, $_POST);
+    $error_msg = get_error($feedback);
+
     $series_amount = count_series($db);
     $series_info_exp = get_series_info($db, htmlspecialchars($_POST['series_id']));
     /* Get series info from db */
-    $series_id = $_POST['series_id'];
     $series_name = $series_info_exp['name'];
     $series_abstract = $series_info_exp['abstract'];
     $nbr_seasons = $series_info_exp['seasons'];
     $creators = $series_info_exp['creator'];
-    $feedback = update_series($db, $_POST);
-    $error_msg = get_error($feedback);
 
     /* Page info */
     $page_title = $series_info_exp['name'];
@@ -278,28 +279,6 @@ elseif (new_route('/DDWT21/week1/remove/', 'post')) {
     $page_subtitle = 'The overview of all series';
     $page_content = 'Here you find all series listed on Series Overview.';
     $left_content = $series;
-        /*'
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">Series</th>
-            <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th scope="row">House of Cards</th>
-            <td><a href="/DDWT21/week1/series/" role="button" class="btn btn-primary">More info</a></td>
-        </tr>
-
-        <tr>
-            <th scope="row">Game of Thrones</th>
-            <td><a href="/DDWT21/week1/series/" role="button" class="btn btn-primary">More info</a></td>
-        </tr>
-
-        </tbody>
-    </table>';
-        */
 
     /* Choose Template */
     include use_template('main');

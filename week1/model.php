@@ -131,9 +131,6 @@ function p_print($input){
  * @return string
  */
 function get_error($feedback){
-    /*foreach ($feedback as $item) {
-        echo $item . "\n";
-    } */
     return '
         <div class="alert alert-'.$feedback['type'].'" role="alert">
             '.$feedback['message'].'
@@ -141,6 +138,7 @@ function get_error($feedback){
 }
 
 /**
+ * Count how many series there are in the database
  * @param $pdo
  * @return mixed
  */
@@ -152,6 +150,7 @@ function count_series($pdo) {
 }
 
 /**
+ * Get an array with all series listed from the database
  * @param $pdo
  * @return array
  */
@@ -170,6 +169,7 @@ function get_series($pdo) {
 }
 
 /**
+ * Create a table with all the series from the database
  * @param $series
  * @return string
  */
@@ -200,6 +200,7 @@ function get_series_table($series) {
 }
 
 /**
+ * Find all the information a specific series
  * @param $pdo
  * @param $series_id
  * @return array
@@ -217,6 +218,8 @@ function get_series_info($pdo, $series_id) {
 }
 
 /**
+ * Add a series to the database and check if all fields are filled in, check if seasons is a number and if the series already exists
+ * If everything checks out, add the series to the database
  * @param $pdo
  * @param $series_info
  * @return array|string[]
@@ -273,6 +276,8 @@ function add_series ($pdo, $series_info) {
 }
 
 /**
+ * Update an existing series. Check if all fields are filled in, check if seasons is a number and check if the series already exists
+ * If everything checks out, update the series
  * @param $pdo
  * @param $series_info
  * @return array|string[]
@@ -336,6 +341,7 @@ function update_series($pdo, $series_info) {
 }
 
 /**
+ * Remove a series from the database
  * @param $pdo
  * @param $series_id
  * @return array|string[]

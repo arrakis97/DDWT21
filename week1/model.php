@@ -12,14 +12,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-/**
- * Check if the route exists
- * @param string $route_uri URI to be matched
- * @param string $request_type Request method
- * @return bool
- *
- */
-
 function connect_db($host, $db, $user, $pass) {
     $charset = 'utf8mb4';
 
@@ -36,7 +28,13 @@ function connect_db($host, $db, $user, $pass) {
     return $pdo;
 }
 
-
+/**
+ * Check if the route exists
+ * @param string $route_uri URI to be matched
+ * @param string $request_type Request method
+ * @return bool
+ *
+ */
 function new_route($route_uri, $request_type){
     $route_uri_expl = array_filter(explode('/', $route_uri));
     $current_path_expl = array_filter(explode('/',parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)));

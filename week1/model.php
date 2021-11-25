@@ -307,12 +307,36 @@ function update_series($pdo, $series_info) {
     $stmt = $pdo->prepare('SELECT * FROM series WHERE name = ?');
     $stmt->execute([$series_info['Name']]);
     $series = $stmt->fetch();
-    if ($series_info['Name'] == $series['name'] and $series['name'] != $current_name) {
+    if (isset($series['name'])) {
+        if ($series_info['Name'] == $series['name'] and $series['name'] != $current_name) {
+            return [
+                'type' => 'danger',
+                'message' => sprintf("The name of the series cannot be changed. '%s' already exists.", $series_info['Name'])
+            ];
+        }
+    }
+    $stmt = $pdo->prepare('UPDATE series SET name = ?, creator = ?, seasons = ?, abstract = ? WHERE id = ?');
+    $stmt->execute([
+        $series_info['Name'],
+        $series_info['Creator'],
+        $series_info['Seasons'],
+        $series_info['Abstract'],
+        $series_info['series_id']
+    ]);
+    $updated = $stmt->rowCount();
+    if ($updated == 1) {
         return [
-            'type' => 'danger',
-            'message' => sprintf("The name of the series cannot be changed. '%s' already exists.", $series_info['Name'])
+            'type' => 'success',
+            'message' => sprintf("Series '%s' was edited!", $series_info['Name'])
         ];
     }
+    else {
+        return [
+            'type' => 'warning',
+            'message' => 'The series was not edited. No changes were detected.'
+        ];
+    }
+    /*
     else {
         $stmt = $pdo->prepare('UPDATE series SET name = ?, creator = ?, seasons = ?, abstract = ? WHERE id = ?');
         $stmt->execute([
@@ -336,6 +360,7 @@ function update_series($pdo, $series_info) {
             ];
         }
     }
+    */
 }
 
 /**

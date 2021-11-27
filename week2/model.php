@@ -412,3 +412,10 @@ function get_user_id(){
         return False;
     }
 }
+
+function display_user($pdo, $user_id) {
+    $stmt = $pdo->prepare('SELECT firstname, lastname FROM users WHERE id = ?');
+    $stmt->execute([$user_id]);
+    $user_name = $stmt->fetch();
+    return $user_name;
+}

@@ -222,6 +222,7 @@ function get_series_info($pdo, $series_id){
  * @return string
  */
 function get_error($feedback){
+    $feedback = json_decode($feedback, true);
     $error_exp = '
         <div class="alert alert-'.$feedback['type'].'" role="alert">
             '.$feedback['message'].'

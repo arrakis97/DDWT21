@@ -107,6 +107,7 @@ elseif (new_route('/DDWT21/week2/series/', 'get')) {
     $page_content = $series_info['abstract'];
     $nbr_seasons = $series_info['seasons'];
     $creators = $series_info['creator'];
+    $added_by = display_user($db, $series_info['user']);
 
     if (isset($_GET['error_msg'])) {
         $error_msg = get_error($_GET['error_msg']);

@@ -77,6 +77,10 @@ elseif (new_route('/DDWT21/week2/overview/', 'get')) {
     $page_content = 'Here you find all series listed on Series Overview.';
     $left_content = get_series_table(get_series($db), $db);
 
+    if (isset(($_GET['error_msg']))) {
+        $error_msg = get_error(($_GET['error_msg']));
+    }
+
     /* Choose Template */
     include use_template('main');
 }
@@ -103,6 +107,10 @@ elseif (new_route('/DDWT21/week2/series/', 'get')) {
     $nbr_seasons = $series_info['seasons'];
     $creators = $series_info['creator'];
 
+    if (isset($_GET['error_msg'])) {
+        $error_msg = get_error($_GET['error_msg']);
+    }
+
     /* Choose Template */
     include use_template('series');
 }
@@ -126,7 +134,6 @@ elseif (new_route('/DDWT21/week2/add/', 'get')) {
 
     if (isset($_GET['error_msg'])) {
         $error_msg = get_error($_GET['error_msg']);
-        p_print($_GET['error_msg']);
     }
 
     /* Choose Template */
@@ -139,7 +146,7 @@ elseif (new_route('/DDWT21/week2/add/', 'post')) {
     $feedback = add_series($db, $_POST);
     $error_msg = get_error($feedback);
 
-    redirect(sprintf('/DDWT21/week2/add/?error_msg=%s', json_encode($feedback)));
+    redirect(sprintf('/DDWT21/week2/add/?error_msg=%s', urlencode(json_encode($feedback))));
 
     include use_template('new');
 }
@@ -185,10 +192,10 @@ elseif (new_route('/DDWT21/week2/edit/', 'post')) {
     $series_info = get_series_info($db, $series_id);
 
     if ($feedback['type'] == 'danger') {
-        redirect(sprintf('/DDWT21/week2/edit/?error_msg=%s', json_encode($feedback)));
+        redirect(sprintf('/DDWT21/week2/edit/?error_msg=%s', urlencode(json_encode($feedback))));
     }
     else {
-        redirect(sprintf('/DDWT21/week2/series/?error_msg=%s&series_id=%s', json_encode($feedback), $series_id));
+        redirect(sprintf('/DDWT21/week2/series/?error_msg=%s&series_id=%s', urlencode(json_encode($feedback)), $series_id));
     }
 
     /* Choose Template */
@@ -202,30 +209,7 @@ elseif (new_route('/DDWT21/week2/remove/', 'post')) {
     $feedback = remove_series($db, $series_id);
     $error_msg = get_error($feedback);
 
-    if ($feedback['type'] == 'danger') {
-        redirect(sprintf('/DDWT21/week2/remove/?error_msg=%s', json_encode($feedback)));
-    }
-    else {
-        redirect(sprintf('/DDWT21/week2/overview/?error_msg=%s', json_encode($feedback)));
-    }
-
-    if (isset($_POST['error_msg'])) {
-        $error_msg = get_error($_POST['error_msg']);
-    }
-
-    /* Page info */
-    $page_title = 'Overview';
-    $breadcrumbs = get_breadcrumbs([
-        'DDWT21' => na('/DDWT21/', False),
-        'Week 2' => na('/DDWT21/week2/', False),
-        'Overview' => na('/DDWT21/week2/overview', True)
-    ]);
-    $navigation = get_navigation($navigation_array, 2);
-
-    /* Page content */
-    $page_subtitle = 'The overview of all series';
-    $page_content = 'Here you find all series listed on Series Overview.';
-    $left_content = get_series_table(get_series($db));
+    redirect(sprintf('/DDWT21/week2/overview/?error_msg=%s', urlencode(json_encode($feedback))));
 
     /* Choose Template */
     include use_template('main');

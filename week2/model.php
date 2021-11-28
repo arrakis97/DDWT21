@@ -430,3 +430,10 @@ function display_user($pdo, $user_id) {
     $user_name = $stmt->fetch();
     return $user_name;
 }
+
+function count_users($pdo) {
+    $stmt = $pdo->prepare('SELECT * FROM users');
+    $stmt->execute();
+    $users = $stmt->rowCount();
+    return $users;
+}

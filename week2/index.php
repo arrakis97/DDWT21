@@ -17,6 +17,7 @@ $db = connect_db('localhost', 'ddwt21_week2', 'ddwt21','ddwt21');
  */
 /* Get Number of Series */
 $nbr_series = count_series($db);
+$nbr_users = count_users($db);
 $right_column = use_template('cards');
 $navigation_array = Array (
     1 => Array (

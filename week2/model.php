@@ -132,20 +132,23 @@ function get_navigation($navigation){
  * @param array $series Associative array of series
  * @return string
  */
-function get_series_table($series){
+function get_series_table($series, $pdo){
     $table_exp = '
     <table class="table table-hover">
     <thead
     <tr>
         <th scope="col">Series</th>
+        <th scope="col">Name</th>
         <th scope="col"></th>
     </tr>
     </thead>
     <tbody>';
     foreach($series as $key => $value){
+        $user = display_user($pdo, $value['user']);
         $table_exp .= '
         <tr>
             <th scope="row">'.$value['name'].'</th>
+            <th scope="row">'.$user['firstname'].' '.$user['lastname'].'</th>
             <td><a href="/DDWT21/week2/series/?series_id='.$value['id'].'" role="button" class="btn btn-primary">More info</a></td>
         </tr>
         ';

@@ -243,7 +243,7 @@ elseif (new_route('/DDWT21/week2/myaccount/', 'get')) {
 /* Register */
 elseif (new_route('/DDWT21/week2/register/', 'get')) {
     /* Page info */
-    $page_title = 'Registration';
+    $page_title = 'Register';
     $breadcrumbs = get_breadcrumbs([
         'DDWT21' => na('/DDWT21/', False),
         'Week 2' => na('/DDWT21/week2/', False),
@@ -263,7 +263,17 @@ elseif (new_route('/DDWT21/week2/register/', 'get')) {
 }
 
 elseif (new_route('/DDWT21/week2/register', 'post')) {
+    /* Register user */
+    $feedback = register_user($db, $_POST);
 
+    if ($feedback['type'] == 'danger') {
+        /* Redirect to register form */
+        redirect(sprintf('/DDWT21/week2/register/?error_msg=%s', json_encode($feedback)));
+    }
+    else {
+        /* Redirect to My Account page */
+        redirect(sprintf('/DDWT21/week2/myaccount/?error_msg=%s', json_encode($feedback)));
+    }
 }
 
 elseif (new_route('/DDWT21/week2/login', 'get')) {

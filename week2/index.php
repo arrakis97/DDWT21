@@ -77,7 +77,7 @@ elseif (new_route('/DDWT21/week2/overview/', 'get')) {
     $page_content = 'Here you find all series listed on Series Overview.';
     $left_content = get_series_table(get_series($db), $db);
 
-    if (isset(($_GET['error_msg']))) {
+    if (isset($_GET['error_msg'])) {
         $error_msg = get_error(($_GET['error_msg']));
     }
 

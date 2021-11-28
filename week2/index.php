@@ -217,6 +217,26 @@ elseif (new_route('/DDWT21/week2/remove/', 'post')) {
     include use_template('main');
 }
 
+/* My account */
+elseif (new_route('/DDWT21/week2/myaccount/', 'get')) {
+    /* Page info */
+    $page_title = 'My Account';
+    $breadcrumbs = get_breadcrumbs([
+        'DDWT21' => na('/DDWT21/', False),
+        'Week 2' => na('/DDWT21/week2/', False),
+        'My Account' => na('/DDWT21/week2/myaccount/', True)
+    ]);
+    $navigation = get_navigation($navigation_array, 4);
+
+    /* Page content */
+    $page_subtitle = 'Your account';
+    $page_content = 'Here you can see information about your account';
+    $user = display_user($db, 1)['firstname'];
+
+    /* Choose template */
+    include use_template('account');
+}
+
 else {
     http_response_code(404);
     echo '404 Not Found';

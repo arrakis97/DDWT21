@@ -176,7 +176,6 @@ elseif (new_route('/DDWT21/week2/edit/', 'get')) {
 
     if (isset($_GET['error_msg'])) {
         $error_msg = get_error($_GET['error_msg']);
-        p_print($_GET['error_msg']);
     }
 
     /* Choose Template */
@@ -233,8 +232,67 @@ elseif (new_route('/DDWT21/week2/myaccount/', 'get')) {
     $page_content = 'Here you can see information about your account';
     $user = display_user($db, 1)['firstname'];
 
+    if (isset($_GET['error_msg'])) {
+        $error_msg = get_error($_GET['error_msg']);
+    }
+
     /* Choose template */
     include use_template('account');
+}
+
+/* Register */
+elseif (new_route('/DDWT21/week2/register/', 'get')) {
+    /* Page info */
+    $page_title = 'Registration';
+    $breadcrumbs = get_breadcrumbs([
+        'DDWT21' => na('/DDWT21/', False),
+        'Week 2' => na('/DDWT21/week2/', False),
+        'Registration' => na('/DDWT21/week2/register', True)
+    ]);
+    $navigation = get_navigation($navigation_array, 5);
+
+    /* Page content */
+    $page_subtitle = 'Here you can register your own Series Overview account!';
+
+    if (isset($_GET['error_msg'])) {
+        $error_msg = get_error($_GET['error_msg']);
+    }
+
+    /* Choose template */
+    include use_template('register');
+}
+
+elseif (new_route('/DDWT21/week2/register', 'post')) {
+
+}
+
+elseif (new_route('/DDWT21/week2/login', 'get')) {
+    /* Page info */
+    $page_title = 'Login';
+    $breadcrumbs = get_breadcrumbs([
+        'DDWT21' => na('/DDWT21/', False),
+        'Week 2' => na('/DDWT21/week2/', False),
+        'Login' => na('/DDWT21/week2/login', True)
+    ]);
+    $navigation = get_navigation($navigation_array, 6);
+
+    /* Page content */
+    $page_subtitle = 'Login to you Series Overview account';
+
+    if (isset($_GET['error_msg'])) {
+        $error_msg = get_error($_GET['error_msg']);
+    }
+
+    /* Choose template */
+    include use_template('login');
+}
+
+elseif (new_route('/DDWT21/week2/login', 'post')) {
+
+}
+
+elseif (new_route('/DDWT21/week2/logout/', 'get')) {
+
 }
 
 else {

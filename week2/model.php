@@ -301,13 +301,22 @@ function add_series($pdo, $series_info){
  * @return array
  */
 function update_series($pdo, $series_info){
+    /* Check if currently logged-in user is also the creator of the series */
+    if ($series_info['user'] == $_SESSION['user_id']) {
+        $display_buttons = True;
+    }
+    else {
+        $display_buttons = False;
+    }
+
     /* Check if all fields are set */
     if (
         empty($series_info['Name']) or
         empty($series_info['Creator']) or
         empty($series_info['Seasons']) or
         empty($series_info['Abstract']) or
-        empty($series_info['series_id'])
+        empty($series_info['series_id']) or
+        empty($series_info['user'])
     ) {
         return [
             'type' => 'danger',
@@ -341,13 +350,14 @@ function update_series($pdo, $series_info){
     }
 
     /* Update Series */
-    $stmt = $pdo->prepare("UPDATE series SET name = ?, creator = ?, seasons = ?, abstract = ? WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE series SET name = ?, creator = ?, seasons = ?, abstract = ? WHERE id = ? AND user = ?");
     $stmt->execute([
         $series_info['Name'],
         $series_info['Creator'],
         $series_info['Seasons'],
         $series_info['Abstract'],
-        $series_info['series_id']
+        $series_info['series_id'],
+        $series_info['user']
     ]);
     $updated = $stmt->rowCount();
     if ($updated ==  1) {
@@ -373,6 +383,14 @@ function update_series($pdo, $series_info){
 function remove_series($pdo, $series_id){
     /* Get series info */
     $series_info = get_series_info($pdo, $series_id);
+
+    /* Check if currently logged-in user is also the creator of the series */
+    if ($series_info['user'] == $_SESSION['user_id']) {
+        $display_buttons = True;
+    }
+    else {
+        $display_buttons = False;
+    }
 
     /* Delete Series */
     $stmt = $pdo->prepare("DELETE FROM series WHERE id = ?");

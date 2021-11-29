@@ -92,9 +92,18 @@ elseif (new_route('/DDWT21/week2/overview/', 'get')) {
 
 /* Single Series */
 elseif (new_route('/DDWT21/week2/series/', 'get')) {
+    session_start();
     /* Get series from db */
     $series_id = $_GET['series_id'];
     $series_info = get_series_info($db, $series_id);
+
+    /* Check if currently logged-in user is also the creator of the series */
+    if ($series_info['user'] == $_SESSION['user_id']) {
+        $display_buttons = True;
+    }
+    else {
+        $display_buttons = False;
+    }
 
     /* Page info */
     $page_title = $series_info['name'];
@@ -234,6 +243,10 @@ elseif (new_route('/DDWT21/week2/remove/', 'post')) {
         redirect('/DDWT21/week2/login/');
     }
 
+    /* Get series info from db */
+    $series_id = $_POST['series_id'];
+    $series_info = get_series_info($db, $series_id);
+
     /* Remove series in database */
     $series_id = $_POST['series_id'];
     $feedback = remove_series($db, $series_id);
@@ -274,7 +287,7 @@ elseif (new_route('/DDWT21/week2/myaccount/', 'get')) {
     include use_template('account');
 }
 
-/* Register */
+/* Register GET */
 elseif (new_route('/DDWT21/week2/register/', 'get')) {
     /* Page info */
     $page_title = 'Register';
@@ -296,6 +309,7 @@ elseif (new_route('/DDWT21/week2/register/', 'get')) {
     include use_template('register');
 }
 
+/* Register POST */
 elseif (new_route('/DDWT21/week2/register', 'post')) {
     /* Register user */
     $feedback = register_user($db, $_POST);
@@ -310,6 +324,7 @@ elseif (new_route('/DDWT21/week2/register', 'post')) {
     }
 }
 
+/* Login GET */
 elseif (new_route('/DDWT21/week2/login', 'get')) {
     /* Page info */
     $page_title = 'Login';
@@ -331,6 +346,7 @@ elseif (new_route('/DDWT21/week2/login', 'get')) {
     include use_template('login');
 }
 
+/* Login POST */
 elseif (new_route('/DDWT21/week2/login', 'post')) {
     /* Login user */
     $feedback = login_user($db, $_POST);

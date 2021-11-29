@@ -1,4 +1,3 @@
-<!--<?php session_start();?>-->
 <!doctype html>
 <html lang="en">
     <head>
@@ -50,17 +49,19 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <a href="/DDWT21/week2/edit/?series_id=<?= $series_id ?>" role="button" class="btn btn-warning">Edit</a>
+                    <?php if ($display_buttons) { ?>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <a href="/DDWT21/week2/edit/?series_id=<?= $series_id ?>" role="button" class="btn btn-warning">Edit</a>
+                            </div>
+                            <div class="col-sm-2">
+                                <form action="/DDWT21/week2/remove/" method="POST">
+                                    <input type="hidden" value="<?= $series_id ?>" name="series_id">
+                                    <button type="submit" class="btn btn-danger">Remove</button>
+                                </form>
+                            </div>
                         </div>
-                        <div class="col-sm-2">
-                            <form action="/DDWT21/week2/remove/" method="POST">
-                                <input type="hidden" value="<?= $series_id ?>" name="series_id">
-                                <button type="submit" class="btn btn-danger">Remove</button>
-                            </form>
-                        </div>
-                    </div>
+                    <?php } ?>
 
                 </div>
 

@@ -1,4 +1,3 @@
-<?php session_start();?>
 <!doctype html>
 <html lang="en">
     <head>
@@ -50,7 +49,7 @@
                         <div class="form-group row">
                             <label for="inputSeasons" class="col-sm-2 col-form-label">Seasons</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="inputCreator" name="Seasons" value="<?php if (isset($series_info)){echo $series_info['seasons'];} ?>" required>
+                                <input type="number" class="form-control" id="inputSeasons" name="Seasons" value="<?php if (isset($series_info)){echo $series_info['seasons'];} ?>" required>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -62,6 +61,7 @@
                         <?php if(isset($series_id)){ ?><input type="hidden" name="series_id" value="<?php echo $series_id ?>"><?php } ?>
                         <div class="form-group row">
                             <div class="col-sm-10">
+                                <input type="hidden" id="user" name="user" value="<?= $_SESSION['user_id']?>">
                                 <button type="submit" class="btn btn-primary"><?= $submit_btn ?></button>
                             </div>
                         </div>

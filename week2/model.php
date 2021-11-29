@@ -242,7 +242,8 @@ function add_series($pdo, $series_info){
         empty($series_info['Name']) or
         empty($series_info['Creator']) or
         empty($series_info['Seasons']) or
-        empty($series_info['Abstract'])
+        empty($series_info['Abstract']) or
+        empty($series_info['user'])
     ) {
         return [
             'type' => 'danger',
@@ -270,12 +271,13 @@ function add_series($pdo, $series_info){
     }
 
     /* Add Series */
-    $stmt = $pdo->prepare("INSERT INTO series (name, creator, seasons, abstract) VALUES (?, ?, ?, ?)");
+    $stmt = $pdo->prepare("INSERT INTO series (name, creator, seasons, abstract, user) VALUES (?, ?, ?, ?, ?)");
     $stmt->execute([
         $series_info['Name'],
         $series_info['Creator'],
         $series_info['Seasons'],
-        $series_info['Abstract']
+        $series_info['Abstract'],
+        $series_info['user']
     ]);
     $inserted = $stmt->rowCount();
     if ($inserted ==  1) {
@@ -555,5 +557,22 @@ function check_login () {
     }
     else {
         return False;
+    }
+}
+
+function logout_user () {
+    unset($_SESSION);
+    session_destroy();
+    if (empty($_SESSION['user_id'])) {
+        return [
+            'type' => 'success',
+            'message' => 'You have been logged out.'
+        ];
+    }
+    else {
+        return [
+            'type' => 'danger',
+            'message' => 'Something went wrong.'
+        ];
     }
 }

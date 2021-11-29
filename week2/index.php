@@ -58,6 +58,10 @@ if (new_route('/DDWT21/week2/', 'get')) {
     $page_subtitle = 'The online platform to list your favorite series';
     $page_content = 'On Series Overview you can list your favorite series. You can see the favorite series of all Series Overview users. By sharing your favorite series, you can get inspired by others and explore new series.';
 
+    if (isset($_GET['error_msg'])) {
+        $error_msg = get_error($_GET['error_msg']);
+    }
+
     /* Choose Template */
     include use_template('main');
 }
@@ -79,7 +83,7 @@ elseif (new_route('/DDWT21/week2/overview/', 'get')) {
     $left_content = get_series_table(get_series($db), $db);
 
     if (isset($_GET['error_msg'])) {
-        $error_msg = get_error(($_GET['error_msg']));
+        $error_msg = get_error($_GET['error_msg']);
     }
 
     /* Choose Template */
@@ -260,8 +264,7 @@ elseif (new_route('/DDWT21/week2/myaccount/', 'get')) {
     /* Page content */
     $page_subtitle = 'Your account';
     $page_content = 'Here you can see information about your account';
-    $user = "Hello";
-    //$user = display_user($db, $_SESSION['user_id'])['firstname'];
+    $user = display_user($db, $_SESSION['user_id'])['firstname'];
 
     if (isset($_GET['error_msg'])) {
         $error_msg = get_error($_GET['error_msg']);
@@ -348,7 +351,8 @@ elseif (new_route('/DDWT21/week2/login', 'post')) {
 }
 
 elseif (new_route('/DDWT21/week2/logout/', 'get')) {
-
+    $feedback = logout_user();
+    redirect(sprintf('/DDWT21/week2/?error_msg=%s', json_encode($feedback)));
 }
 
 else {

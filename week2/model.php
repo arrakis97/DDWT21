@@ -145,7 +145,7 @@ function get_series_table($series, $pdo){
     <thead
     <tr>
         <th scope="col">Series</th>
-        <th scope="col">Name</th>
+        <th scope="col">Added by</th>
         <th scope="col"></th>
     </tr>
     </thead>

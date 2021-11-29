@@ -166,7 +166,7 @@ elseif (new_route('/DDWT21/week2/edit/', 'get')) {
         'Week 2' => na('/DDWT21/week2/', False),
         sprintf("Edit Series %s", $series_info['name']) => na('/DDWT21/week2/new/', True)
     ]);
-    $navigation = get_navigation($navigation_array, 6);
+    $navigation = get_navigation($navigation_array, 0);
 
     /* Page content */
     $page_subtitle = sprintf("Edit %s", $series_info['name']);
@@ -230,7 +230,7 @@ elseif (new_route('/DDWT21/week2/myaccount/', 'get')) {
     /* Page content */
     $page_subtitle = 'Your account';
     $page_content = 'Here you can see information about your account';
-    $user = display_user($db, 1)['firstname'];
+    $user = display_user($db, $_SESSION['user_id'])['firstname'];
 
     if (isset($_GET['error_msg'])) {
         $error_msg = get_error($_GET['error_msg']);
@@ -284,7 +284,7 @@ elseif (new_route('/DDWT21/week2/login', 'get')) {
         'Week 2' => na('/DDWT21/week2/', False),
         'Login' => na('/DDWT21/week2/login', True)
     ]);
-    $navigation = get_navigation($navigation_array, 6);
+    $navigation = get_navigation($navigation_array, 0);
 
     /* Page content */
     $page_subtitle = 'Login to you Series Overview account';
@@ -298,7 +298,17 @@ elseif (new_route('/DDWT21/week2/login', 'get')) {
 }
 
 elseif (new_route('/DDWT21/week2/login', 'post')) {
+    /* Login user */
+    $feedback = login_user($db, $_POST);
 
+    if ($feedback['type'] == 'danger') {
+        /* Redirect to login screen */
+        redirect(sprintf('/DDWT21/week2/login/?error_msg=%s', json_encode($feedback)));
+    }
+    else {
+        /* Redirect to My Account page */
+        redirect(sprintf('/DDWT21/week2/myaccount/?error_msg=%s', json_encode($feedback)));
+    }
 }
 
 elseif (new_route('/DDWT21/week2/logout/', 'get')) {

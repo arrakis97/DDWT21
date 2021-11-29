@@ -119,6 +119,11 @@ elseif (new_route('/DDWT21/week2/series/', 'get')) {
 
 /* Add series GET */
 elseif (new_route('/DDWT21/week2/add/', 'get')) {
+    /* Check if logged in */
+    if (!check_login()) {
+        redirect('/DDWT21/week2/login/');
+    }
+
     /* Page info */
     $page_title = 'Add Series';
     $breadcrumbs = get_breadcrumbs([
@@ -144,6 +149,11 @@ elseif (new_route('/DDWT21/week2/add/', 'get')) {
 
 /* Add series POST */
 elseif (new_route('/DDWT21/week2/add/', 'post')) {
+    /* Check if logged in */
+    if (!check_login()) {
+        redirect('/DDWT21/week2/login/');
+    }
+
     /* Add series to database */
     $feedback = add_series($db, $_POST);
     $error_msg = get_error($feedback);
@@ -155,6 +165,11 @@ elseif (new_route('/DDWT21/week2/add/', 'post')) {
 
 /* Edit series GET */
 elseif (new_route('/DDWT21/week2/edit/', 'get')) {
+    /* Check if logged in */
+    if (!check_login()) {
+        redirect('/DDWT21/week2/login/');
+    }
+
     /* Get series info from db */
     $series_id = $_GET['series_id'];
     $series_info = get_series_info($db, $series_id);
@@ -184,6 +199,11 @@ elseif (new_route('/DDWT21/week2/edit/', 'get')) {
 
 /* Edit series POST */
 elseif (new_route('/DDWT21/week2/edit/', 'post')) {
+    /* Check if logged in */
+    if (!check_login()) {
+        redirect('/DDWT21/week2/login/');
+    }
+
     /* Update series in database */
     $feedback = update_series($db, $_POST);
     $error_msg = get_error($feedback);
@@ -205,6 +225,11 @@ elseif (new_route('/DDWT21/week2/edit/', 'post')) {
 
 /* Remove series */
 elseif (new_route('/DDWT21/week2/remove/', 'post')) {
+    /* Check if logged in */
+    if (!check_login()) {
+        redirect('/DDWT21/week2/login/');
+    }
+
     /* Remove series in database */
     $series_id = $_POST['series_id'];
     $feedback = remove_series($db, $series_id);
@@ -218,6 +243,11 @@ elseif (new_route('/DDWT21/week2/remove/', 'post')) {
 
 /* My account */
 elseif (new_route('/DDWT21/week2/myaccount/', 'get')) {
+    /* Check if logged in */
+    if (!check_login()) {
+        redirect('/DDWT21/week2/login/');
+    }
+
     /* Page info */
     $page_title = 'My Account';
     $breadcrumbs = get_breadcrumbs([
@@ -230,7 +260,8 @@ elseif (new_route('/DDWT21/week2/myaccount/', 'get')) {
     /* Page content */
     $page_subtitle = 'Your account';
     $page_content = 'Here you can see information about your account';
-    $user = display_user($db, $_SESSION['user_id'])['firstname'];
+    $user = "Hello";
+    //$user = display_user($db, $_SESSION['user_id'])['firstname'];
 
     if (isset($_GET['error_msg'])) {
         $error_msg = get_error($_GET['error_msg']);
@@ -277,6 +308,11 @@ elseif (new_route('/DDWT21/week2/register', 'post')) {
 }
 
 elseif (new_route('/DDWT21/week2/login', 'get')) {
+    /* Check if logged in */
+    if (!check_login()) {
+        redirect('/DDWT21/week2/myaccount/');
+    }
+
     /* Page info */
     $page_title = 'Login';
     $breadcrumbs = get_breadcrumbs([

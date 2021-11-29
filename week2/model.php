@@ -547,3 +547,13 @@ function login_user ($pdo, $form_data) {
         ];
     }
 }
+
+function check_login () {
+    session_start();
+    if (isset($_SESSION['user_id'])) {
+        return True;
+    }
+    else {
+        return False;
+    }
+}

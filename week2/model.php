@@ -237,6 +237,7 @@ function get_error($feedback){
  * @return array Associative array with key type and message
  */
 function add_series($pdo, $series_info){
+    $display_buttons = True;
     /* Check if all fields are set */
     if (
         empty($series_info['Name']) or

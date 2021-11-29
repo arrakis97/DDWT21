@@ -561,6 +561,7 @@ function check_login () {
 }
 
 function logout_user () {
+    session_start();
     unset($_SESSION);
     session_destroy();
     if (empty($_SESSION['user_id'])) {

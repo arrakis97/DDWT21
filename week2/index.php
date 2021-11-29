@@ -311,11 +311,6 @@ elseif (new_route('/DDWT21/week2/register', 'post')) {
 }
 
 elseif (new_route('/DDWT21/week2/login', 'get')) {
-    /* Check if logged in */
-    if (!check_login()) {
-        redirect('/DDWT21/week2/myaccount/');
-    }
-
     /* Page info */
     $page_title = 'Login';
     $breadcrumbs = get_breadcrumbs([

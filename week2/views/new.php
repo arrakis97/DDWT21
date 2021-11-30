@@ -59,12 +59,14 @@
                             </div>
                         </div>
                         <?php if(isset($series_id)){ ?><input type="hidden" name="series_id" value="<?php echo $series_id ?>"><?php } ?>
-                        <div class="form-group row">
-                            <div class="col-sm-10">
-                                <input type="hidden" id="user" name="user" value="<?= $_SESSION['user_id']?>">
-                                <button type="submit" class="btn btn-primary"><?= $submit_btn ?></button>
+                        <?php if ($display_buttons) { ?>
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                    <input type="hidden" id="user" name="user" value="<?= $_SESSION['user_id']?>">
+                                    <button type="submit" class="btn btn-primary"><?= $submit_btn ?></button>
+                                </div>
                             </div>
-                        </div>
+                        <?php } ?>
                     </form>
                 </div>
 

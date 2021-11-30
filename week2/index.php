@@ -192,6 +192,14 @@ elseif (new_route('/DDWT21/week2/edit/', 'get')) {
     $series_id = $_GET['series_id'];
     $series_info = get_series_info($db, $series_id);
 
+    /* Check if currently logged-in user is also the creator of the series */
+    if ($series_info['user'] == $_SESSION['user_id']) {
+        $display_buttons = True;
+    }
+    else {
+        $display_buttons = False;
+    }
+
     /* Page info */
     $page_title = 'Edit Series';
     $breadcrumbs = get_breadcrumbs([

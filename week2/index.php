@@ -141,6 +141,7 @@ elseif (new_route('/DDWT21/week2/add/', 'get')) {
     if (!check_login()) {
         redirect('/DDWT21/week2/login/');
     }
+    $display_buttons = True;
 
     /* Page info */
     $page_title = 'Add Series';

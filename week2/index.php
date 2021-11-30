@@ -15,8 +15,9 @@ $db = connect_db('localhost', 'ddwt21_week2', 'ddwt21','ddwt21');
 /**
  *
  */
-/* Get Number of Series */
+/* Get number of series */
 $nbr_series = count_series($db);
+/* Get number of users */
 $nbr_users = count_users($db);
 $right_column = use_template('cards');
 $navigation_array = Array (
@@ -177,8 +178,9 @@ elseif (new_route('/DDWT21/week2/add/', 'post')) {
     $feedback = add_series($db, $_POST);
     $error_msg = get_error($feedback);
 
-    redirect(sprintf('/DDWT21/week2/add/?error_msg=%s', urlencode(json_encode($feedback))));
+    redirect(sprintf('/DDWT21/week2/add/?error_msg=%s', json_encode($feedback)));
 
+    /* Choose template */
     include use_template('new');
 }
 
@@ -235,15 +237,11 @@ elseif (new_route('/DDWT21/week2/edit/', 'post')) {
     $feedback = update_series($db, $_POST);
     $error_msg = get_error($feedback);
 
-    /* Get series info from db */
-    $series_id = $_POST['series_id'];
-    $series_info = get_series_info($db, $series_id);
-
     if ($feedback['type'] == 'danger') {
-        redirect(sprintf('/DDWT21/week2/edit/?error_msg=%s', urlencode(json_encode($feedback))));
+        redirect(sprintf('/DDWT21/week2/edit/?error_msg=%s', json_encode($feedback)));
     }
     else {
-        redirect(sprintf('/DDWT21/week2/series/?error_msg=%s&series_id=%s', urlencode(json_encode($feedback)), $series_id));
+        redirect(sprintf('/DDWT21/week2/series/?error_msg=%s&series_id=%s', json_encode($feedback), $_POST['series_id']));
     }
 
     /* Choose Template */
@@ -262,11 +260,10 @@ elseif (new_route('/DDWT21/week2/remove/', 'post')) {
     $series_info = get_series_info($db, $series_id);
 
     /* Remove series in database */
-    $series_id = $_POST['series_id'];
     $feedback = remove_series($db, $series_id);
     $error_msg = get_error($feedback);
 
-    redirect(sprintf('/DDWT21/week2/overview/?error_msg=%s', urlencode(json_encode($feedback))));
+    redirect(sprintf('/DDWT21/week2/overview/?error_msg=%s', json_encode($feedback)));
 
     /* Choose Template */
     include use_template('main');
@@ -340,6 +337,10 @@ elseif (new_route('/DDWT21/week2/register', 'post')) {
 
 /* Login GET */
 elseif (new_route('/DDWT21/week2/login', 'get')) {
+    if (check_login()) {
+        redirect(sprintf('/DDWT21/week2/myaccount'));
+    }
+
     /* Page info */
     $page_title = 'Login';
     $breadcrumbs = get_breadcrumbs([

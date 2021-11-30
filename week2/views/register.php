@@ -39,19 +39,19 @@
                     <form action="/DDWT21/week2/register/" method="POST">
                         <div class="form-group">
                             <label for="inputUsername">Username</label>
-                            <input type="text" class="form-control" id="inputUsername" placeholder="j.jansen" name="username" required>
+                            <input type="text" class="form-control" id="inputUsername" placeholder="Enter a username" name="username" required>
                         </div>
                         <div class="form-group">
                             <label for="inputPassword">Password</label>
-                            <input type="password" class="form-control" id="inputPassword" placeholder="******" name="password" required>
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Enter a password" name="password" required>
                         </div>
                         <div class="form-group">
                             <label for="inputUsername">First name</label>
-                            <input type="text" class="form-control" id="inputUsername" placeholder="Jan" name="firstname" required>
+                            <input type="text" class="form-control" id="inputUsername" placeholder="Enter your first name" name="firstname" required>
                         </div>
                         <div class="form-group">
                             <label for="inputUsername">Last name</label>
-                            <input type="text" class="form-control" id="inputUsername" placeholder="Jansen" name="lastname" required>
+                            <input type="text" class="form-control" id="inputUsername" placeholder="Enter your last name" name="lastname" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Register now</button>
                     </form>

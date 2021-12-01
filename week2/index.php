@@ -12,14 +12,16 @@ include 'model.php';
 /* Connect to DB */
 $db = connect_db('localhost', 'ddwt21_week2', 'ddwt21','ddwt21');
 
-/**
- *
- */
 /* Get number of series */
 $nbr_series = count_series($db);
+
 /* Get number of users */
 $nbr_users = count_users($db);
+
+/* Standard template for $right_column */
 $right_column = use_template('cards');
+
+/* Array with all the standard views */
 $navigation_array = Array (
     1 => Array (
         'name' => 'Home',
@@ -43,7 +45,6 @@ $navigation_array = Array (
     )
 );
 
-
 /* Landing page */
 if (new_route('/DDWT21/week2/', 'get')) {
     /* Page info */
@@ -53,12 +54,14 @@ if (new_route('/DDWT21/week2/', 'get')) {
         'Week 2' => na('/DDWT21/week2/', False),
         'Home' => na('/DDWT21/week2/', True)
     ]);
+    /* Check which page is the active page */
     $navigation = get_navigation($navigation_array, 1);
 
     /* Page content */
     $page_subtitle = 'The online platform to list your favorite series';
     $page_content = 'On Series Overview you can list your favorite series. You can see the favorite series of all Series Overview users. By sharing your favorite series, you can get inspired by others and explore new series.';
 
+    /* Check if an error message is set and display it if available */
     if (isset($_GET['error_msg'])) {
         $error_msg = get_error($_GET['error_msg']);
     }
@@ -76,6 +79,7 @@ elseif (new_route('/DDWT21/week2/overview/', 'get')) {
         'Week 2' => na('/DDWT21/week2/', False),
         'Overview' => na('/DDWT21/week2/overview', True)
     ]);
+    /* Check which page is the active page */
     $navigation = get_navigation($navigation_array, 2);
 
     /* Page content */
@@ -83,6 +87,7 @@ elseif (new_route('/DDWT21/week2/overview/', 'get')) {
     $page_content = 'Here you find all series listed on Series Overview.';
     $left_content = get_series_table(get_series($db), $db);
 
+    /* Check if an error message is set and display it if available */
     if (isset($_GET['error_msg'])) {
         $error_msg = get_error($_GET['error_msg']);
     }
@@ -119,6 +124,7 @@ elseif (new_route('/DDWT21/week2/series/', 'get')) {
         'Overview' => na('/DDWT21/week2/overview/', False),
         $series_info['name'] => na('/DDWT21/week2/series/?series_id='.$series_id, True)
     ]);
+    /* Check which page is the active page */
     $navigation = get_navigation($navigation_array, 2);
 
     /* Page content */
@@ -128,6 +134,7 @@ elseif (new_route('/DDWT21/week2/series/', 'get')) {
     $creators = $series_info['creator'];
     $added_by = display_user($db, $series_info['user']);
 
+    /* Check if an error message is set and display it if available */
     if (isset($_GET['error_msg'])) {
         $error_msg = get_error($_GET['error_msg']);
     }
@@ -151,6 +158,7 @@ elseif (new_route('/DDWT21/week2/add/', 'get')) {
         'Week 2' => na('/DDWT21/week2/', False),
         'Add Series' => na('/DDWT21/week2/new/', True)
     ]);
+    /* Check which page is the active page */
     $navigation = get_navigation($navigation_array, 3);
 
     /* Page content */
@@ -159,6 +167,7 @@ elseif (new_route('/DDWT21/week2/add/', 'get')) {
     $submit_btn = "Add Series";
     $form_action = '/DDWT21/week2/add/';
 
+    /* Check if an error message is set and display it if available */
     if (isset($_GET['error_msg'])) {
         $error_msg = get_error($_GET['error_msg']);
     }
@@ -178,6 +187,7 @@ elseif (new_route('/DDWT21/week2/add/', 'post')) {
     $feedback = add_series($db, $_POST);
     $error_msg = get_error($feedback);
 
+    /* Redirect to the correct page with an error or a success message */
     redirect(sprintf('/DDWT21/week2/add/?error_msg=%s', json_encode($feedback)));
 
     /* Choose template */
@@ -210,6 +220,7 @@ elseif (new_route('/DDWT21/week2/edit/', 'get')) {
         'Week 2' => na('/DDWT21/week2/', False),
         sprintf("Edit Series %s", $series_info['name']) => na('/DDWT21/week2/new/', True)
     ]);
+    /* Check which page is the active page */
     $navigation = get_navigation($navigation_array, 0);
 
     /* Page content */
@@ -218,6 +229,7 @@ elseif (new_route('/DDWT21/week2/edit/', 'get')) {
     $submit_btn = "Edit Series";
     $form_action = '/DDWT21/week2/edit/';
 
+    /* Check if an error message is set and display it if available */
     if (isset($_GET['error_msg'])) {
         $error_msg = get_error($_GET['error_msg']);
     }
@@ -237,6 +249,7 @@ elseif (new_route('/DDWT21/week2/edit/', 'post')) {
     $feedback = update_series($db, $_POST);
     $error_msg = get_error($feedback);
 
+    /* Redirect to the correct page with an error or a success message */
     if ($feedback['type'] == 'danger') {
         redirect(sprintf('/DDWT21/week2/edit/?error_msg=%s', json_encode($feedback)));
     }
@@ -263,6 +276,7 @@ elseif (new_route('/DDWT21/week2/remove/', 'post')) {
     $feedback = remove_series($db, $series_id);
     $error_msg = get_error($feedback);
 
+    /* Redirect to the correct page with an error or a success message */
     redirect(sprintf('/DDWT21/week2/overview/?error_msg=%s', json_encode($feedback)));
 
     /* Choose Template */
@@ -283,6 +297,7 @@ elseif (new_route('/DDWT21/week2/myaccount/', 'get')) {
         'Week 2' => na('/DDWT21/week2/', False),
         'My Account' => na('/DDWT21/week2/myaccount/', True)
     ]);
+    /* Check which page is the active page */
     $navigation = get_navigation($navigation_array, 4);
 
     /* Page content */
@@ -290,6 +305,7 @@ elseif (new_route('/DDWT21/week2/myaccount/', 'get')) {
     $page_content = 'Here you can see information about your account';
     $user = display_user($db, $_SESSION['user_id'])['firstname'];
 
+    /* Check if an error message is set and display it if available */
     if (isset($_GET['error_msg'])) {
         $error_msg = get_error($_GET['error_msg']);
     }
@@ -307,11 +323,13 @@ elseif (new_route('/DDWT21/week2/register/', 'get')) {
         'Week 2' => na('/DDWT21/week2/', False),
         'Registration' => na('/DDWT21/week2/register', True)
     ]);
+    /* Check which page is the active page */
     $navigation = get_navigation($navigation_array, 5);
 
     /* Page content */
     $page_subtitle = 'Here you can register your own Series Overview account!';
 
+    /* Check if an error message is set and display it if available */
     if (isset($_GET['error_msg'])) {
         $error_msg = get_error($_GET['error_msg']);
     }
@@ -325,6 +343,7 @@ elseif (new_route('/DDWT21/week2/register', 'post')) {
     /* Register user */
     $feedback = register_user($db, $_POST);
 
+    /* Redirect to the correct page with an error or a success message */
     if ($feedback['type'] == 'danger') {
         /* Redirect to register form */
         redirect(sprintf('/DDWT21/week2/register/?error_msg=%s', json_encode($feedback)));
@@ -348,11 +367,13 @@ elseif (new_route('/DDWT21/week2/login', 'get')) {
         'Week 2' => na('/DDWT21/week2/', False),
         'Login' => na('/DDWT21/week2/login', True)
     ]);
+    /* Check which page is the active page */
     $navigation = get_navigation($navigation_array, 0);
 
     /* Page content */
     $page_subtitle = 'Login to you Series Overview account';
 
+    /* Check if an error message is set and display it if available */
     if (isset($_GET['error_msg'])) {
         $error_msg = get_error($_GET['error_msg']);
     }
@@ -366,6 +387,7 @@ elseif (new_route('/DDWT21/week2/login', 'post')) {
     /* Login user */
     $feedback = login_user($db, $_POST);
 
+    /* Redirect to the correct page with an error or a success message */
     if ($feedback['type'] == 'danger') {
         /* Redirect to login screen */
         redirect(sprintf('/DDWT21/week2/login/?error_msg=%s', json_encode($feedback)));

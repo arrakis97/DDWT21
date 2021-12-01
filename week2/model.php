@@ -41,7 +41,6 @@ function connect_db($host, $db, $user, $pass){
  * @param string $route_uri URI to be matched
  * @param string $request_type Request method
  * @return bool
- *
  */
 function new_route($route_uri, $request_type){
     $route_uri_expl = array_filter(explode('/', $route_uri));
@@ -97,15 +96,9 @@ function get_breadcrumbs($breadcrumbs) {
 
 /**
  * Creates navigation HTML code using given array
- * @param array $navigation Array with as Key the page name and as Value the corresponding URL
+ * @param $template Array with page names and URL's
+ * @param $active_id ID of the current active page
  * @return string HTML code that represents the navigation
- */
-
-/**
- * Creates navigation HTML code using given array
- * @param $template
- * @param $active_id
- * @return string
  */
 function get_navigation($template, $active_id){
     $navigation_exp = '
@@ -237,7 +230,7 @@ function get_error($feedback){
  * @return array Associative array with key type and message
  */
 function add_series($pdo, $series_info){
-    $display_buttons = True;
+    //$display_buttons = True;
     /* Check if all fields are set */
     if (
         empty($series_info['Name']) or
@@ -302,14 +295,6 @@ function add_series($pdo, $series_info){
  * @return array
  */
 function update_series($pdo, $series_info){
-    /* Check if currently logged-in user is also the creator of the series */
-    if ($series_info['user'] == $_SESSION['user_id']) {
-        $display_buttons = True;
-    }
-    else {
-        $display_buttons = False;
-    }
-
     /* Check if all fields are set */
     if (
         empty($series_info['Name']) or
@@ -445,6 +430,12 @@ function get_user_id(){
     }
 }
 
+/**
+ * Find the first and last name of a user
+ * @param PDO $pdo Database
+ * @param int $user_id User ID for which you want to find the name
+ * @return array Contains first and last name of a user
+ */
 function display_user($pdo, $user_id) {
     $stmt = $pdo->prepare('SELECT firstname, lastname FROM users WHERE id = ?');
     $stmt->execute([$user_id]);
@@ -452,6 +443,11 @@ function display_user($pdo, $user_id) {
     return $user_name;
 }
 
+/**
+ * Count the amount of active users
+ * @param PDO $pdo Database
+ * @return mixed Amount of users
+ */
 function count_users($pdo) {
     $stmt = $pdo->prepare('SELECT * FROM users');
     $stmt->execute();
@@ -459,6 +455,12 @@ function count_users($pdo) {
     return $users;
 }
 
+/**
+ * Register a user in the database
+ * @param PDO $pdo Database
+ * @param Array $form_data Data filled in by a user
+ * @return array|string[]
+ */
 function register_user($pdo, $form_data) {
     /* Check if all fields are set */
     if (
@@ -519,6 +521,12 @@ function register_user($pdo, $form_data) {
     ];
 }
 
+/**
+ * Login a user
+ * @param PDO $pdo Database
+ * @param Array $form_data Data filled in by the user
+ * @return array|string[]
+ */
 function login_user ($pdo, $form_data) {
     /* Check if all fields are set */
     if (
@@ -569,6 +577,10 @@ function login_user ($pdo, $form_data) {
     }
 }
 
+/**
+ * Check if a user is logged in
+ * @return bool
+ */
 function check_login () {
     session_start();
     if (isset($_SESSION['user_id'])) {
@@ -579,6 +591,10 @@ function check_login () {
     }
 }
 
+/**
+ * Logout a user
+ * @return string[]
+ */
 function logout_user () {
     session_start();
     unset($_SESSION);

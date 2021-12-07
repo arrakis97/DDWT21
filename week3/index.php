@@ -28,11 +28,23 @@ $router->mount('/api', function () use ($router, $db){
         $series = get_series($db);
         echo json_encode($series, JSON_PRETTY_PRINT);
     });
+
+    /* GET for reading individual series */
+    $router->get('/series/(\d+)', function ($id) use ($db) {
+        $series_info = get_series_info($db, $id);
+        echo json_encode($series_info, JSON_PRETTY_PRINT);
+    });
+
+    /* DELETE for deleting individual series */
+    $router->delete('/series/(\d+)', function ($id) use ($db) {
+        $feedback = remove_series($db, $id);
+        echo json_encode($feedback, JSON_PRETTY_PRINT);
+    });
 });
 
 $router->set404(function () {
     header('HTTP/1.1 404 Not Found');
-    p_print("404 error: page was not found.");
+    echo "404 error: page was not found.";
 });
 
 /* Run the router */

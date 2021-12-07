@@ -258,3 +258,7 @@ function redirect($location){
     header(sprintf('Location: %s', $location));
     die();
 }
+
+function http_type_content() {
+    header('Content-Type: application/json');
+}

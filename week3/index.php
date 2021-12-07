@@ -20,6 +20,14 @@ $db = connect_db('localhost', 'ddwt21_week3', 'ddwt21', 'ddwt21');
 $router = new \Bramus\Router\Router();
 
 // Add routes here
+$router->mount('/api', function () use ($router, $db){
+    http_type_content();
+});
+
+$router->set404(function () {
+    header('HTTP/1.1 404 Not Found');
+    p_print("404 error: page was not found.");
+});
 
 /* Run the router */
 $router->run();

@@ -26,8 +26,7 @@ $router->mount('/api', function () use ($router, $db){
     /* GET reading for all series */
     $router->get('/series', function () use ($db) {
         $series = get_series($db);
-        p_print(json_decode($series));
-        p_print("Hello");
+        echo json_encode($series, JSON_PRETTY_PRINT);
     });
 });
 

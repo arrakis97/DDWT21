@@ -40,6 +40,13 @@ $router->mount('/api', function () use ($router, $db){
         $feedback = remove_series($db, $id);
         echo json_encode($feedback, JSON_PRETTY_PRINT);
     });
+
+    /* POST for adding a series */
+    $router->post('/series/', function ($_POST) use ($db) {
+        echo "Hello";
+        $feedback = add_series($db, $_POST);
+        echo json_encode($feedback, JSON_PRETTY_PRINT);
+    });
 });
 
 $router->set404(function () {

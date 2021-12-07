@@ -56,7 +56,7 @@ function get_series($pdo){
     $stmt->execute();
     $series = $stmt->fetchAll();
 
-    return $series;
+    return json_encode($series);
 }
 
 /**

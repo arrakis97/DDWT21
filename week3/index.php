@@ -22,6 +22,13 @@ $router = new \Bramus\Router\Router();
 // Add routes here
 $router->mount('/api', function () use ($router, $db){
     http_type_content();
+
+    /* GET reading for all series */
+    $router->get('/series', function () use ($db) {
+        $series = get_series($db);
+        p_print(json_decode($series));
+        p_print("Hello");
+    });
 });
 
 $router->set404(function () {

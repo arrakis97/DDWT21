@@ -30,21 +30,29 @@ $router->mount('/api', function () use ($router, $db){
     });
 
     /* GET for reading individual series */
-    $router->get('/series/(\d+)', function ($id) use ($db) {
-        $series_info = get_series_info($db, $id);
+    $router->get('/series/(\d+)', function ($series_id) use ($db) {
+        $series_info = get_series_info($db, $series_id);
         echo json_encode($series_info, JSON_PRETTY_PRINT);
     });
 
     /* DELETE for deleting individual series */
-    $router->delete('/series/(\d+)', function ($id) use ($db) {
-        $feedback = remove_series($db, $id);
+    $router->delete('/series/(\d+)', function ($series_id) use ($db) {
+        $feedback = remove_series($db, $series_id);
         echo json_encode($feedback, JSON_PRETTY_PRINT);
     });
 
-    /* POST for adding a series */
-    $router->post('/series/', function ($_POST) use ($db) {
-        echo "Hello";
+    /* POST for creating series */
+    $router->post('/series/', function () use ($db) {
         $feedback = add_series($db, $_POST);
+        echo json_encode($feedback, JSON_PRETTY_PRINT);
+    });
+
+    /* PUT for updating series */
+    $router->put('/series/(\d+)', function ($series_id) use ($db) {
+        $_PUT = array();
+        parse_str(file_get_contents('php://input'), $_PUT);
+        $series_info = $_PUT + ["series_id" => $series_id];
+        $feedback = update_series($db, $series_info);
         echo json_encode($feedback, JSON_PRETTY_PRINT);
     });
 });

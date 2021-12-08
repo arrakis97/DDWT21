@@ -262,3 +262,27 @@ function redirect($location){
 function http_type_content() {
     header('Content-Type: application/json');
 }
+
+function set_cred($username, $password) {
+    return [
+        'username' => $username,
+        'password' => $password
+    ];
+}
+
+function check_cred($cred) {
+    if (!isset($_SERVER['PHP_AUTH_USER'])) {
+        return False;
+    }
+    else {
+        if ($_SERVER['PHP_AUTH_USER'] != $cred['username']) {
+            return False;
+        }
+        elseif ($_SERVER['PHP_AUTH_PW'] != $cred['password']) {
+            return False;
+        }
+        else {
+            return True;
+        }
+    }
+}

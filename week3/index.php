@@ -19,6 +19,18 @@ $db = connect_db('localhost', 'ddwt21_week3', 'ddwt21', 'ddwt21');
 /* Create Router instance */
 $router = new \Bramus\Router\Router();
 
+// Set credentials for authentication
+$cred = set_cred('ddwt21', 'ddwt21');
+
+$router->before('GET|POST|PUT|DELETE', '/api/.*', function () use ($cred) {
+    if (!check_cred($cred)) {
+        echo 'Authentication required';
+        http_response_code(401);
+        die();
+    }
+    echo "Successfully authenticated";
+});
+
 // Add routes here
 $router->mount('/api', function () use ($router, $db){
     http_type_content();

@@ -19,9 +19,10 @@ $db = connect_db('localhost', 'ddwt21_week3', 'ddwt21', 'ddwt21');
 /* Create Router instance */
 $router = new \Bramus\Router\Router();
 
-// Set credentials for authentication
+/* Set credentials for authentication */
 $cred = set_cred('ddwt21', 'ddwt21');
 
+/* Check if the credentials are correct */
 $router->before('GET|POST|PUT|DELETE', '/api/.*', function () use ($cred) {
     if (!check_cred($cred)) {
         echo 'Authentication required';
@@ -69,6 +70,7 @@ $router->mount('/api', function () use ($router, $db){
     });
 });
 
+/* Give a custom error message for the 404 error */
 $router->set404(function () {
     header('HTTP/1.1 404 Not Found');
     echo "404 error: page was not found.";

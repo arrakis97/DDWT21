@@ -259,10 +259,20 @@ function redirect($location){
     die();
 }
 
+/**
+ * Set the content type to json
+ * @return void
+ */
 function http_type_content() {
     header('Content-Type: application/json');
 }
 
+/**
+ * Set the credentials
+ * @param $username
+ * @param $password
+ * @return array
+ */
 function set_cred($username, $password) {
     return [
         'username' => $username,
@@ -270,6 +280,11 @@ function set_cred($username, $password) {
     ];
 }
 
+/**
+ * Check the credentials and return true if and only if both username and password are correct
+ * @param $cred
+ * @return bool
+ */
 function check_cred($cred) {
     if (!isset($_SERVER['PHP_AUTH_USER'])) {
         return False;
